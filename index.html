@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la página que aparece en la pestaña del navegador -->
+    <title>Virtue Cuentos</title>
+    <!-- Incluye el CDN de Tailwind CSS para un diseño responsivo y moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Incluye los iconos de Heroicons para los botones -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/heroicons/2.0.18/heroicons.js"></script>
+    <style>
+        /* Define una fuente global para toda la página */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Oculta los elementos que no corresponden a la categoría seleccionada */
+        .hidden-category {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Contenedor principal de la página, centrado y con márgenes -->
+    <div class="container mx-auto p-4 md:p-8">
+
+        <!-- Encabezado de la página -->
+        <header class="bg-blue-600 text-white rounded-xl shadow-lg p-6 mb-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-2">Virtue Cuentos</h1>
+            <p class="text-xl md:text-2xl">Cuentos para inspirar la imaginación.</p>
+        </header>
+
+        <!-- Sección de video cuentos -->
+        <main class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+            <!-- Título de la sección de videos -->
+            <h2 class="text-2xl md:text-3xl font-semibold text-blue-600 mb-6">Nuestros Video Cuentos</h2>
+
+            <!-- Barra de navegación para las categorías -->
+            <nav class="flex flex-wrap justify-center gap-2 mb-6">
+                <!-- Botón para mostrar todos los videos -->
+                <button 
+                    onclick="filterVideos('all')"
+                    class="px-4 py-2 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-600 transition-colors duration-200">
+                    Todos
+                </button>
+                <!-- Botones para filtrar por categoría -->
+                <button 
+                    onclick="filterVideos('honestidad')"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
+                    Honestidad
+                </button>
+                <button 
+                    onclick="filterVideos('generosidad')"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
+                    Generosidad
+                </button>
+                <button 
+                    onclick="filterVideos('respeto')"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
+                    Respeto
+                </button>
+                <button 
+                    onclick="filterVideos('empatia')"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
+                    Empatía
+                </button>
+                <button 
+                    onclick="filterVideos('responsabilidad')"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
+                    Responsabilidad
+                </button>
+                <button 
+                    onclick="filterVideos('amistad')"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
+                    Amistad
+                </button>
+            </nav>
+
+            <!-- Contenedor de la cuadrícula para los videos -->
+            <div id="video-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Tarjeta de video 1: Empatía -->
+                <div class="video-card categoria-empatia bg-blue-50 rounded-lg shadow-md overflow-hidden p-4">
+                    <!-- Contenedor para el video con relación de aspecto 16:9 -->
+                    <div class="aspect-w-16 aspect-h-9 w-full">
+                        <!-- Iframe de YouTube para el video (placeholder) -->
+                        <iframe 
+                            class="w-full h-auto rounded-lg"
+                            src="https://www.youtube.com/embed/L1m41Q9t3z4" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <!-- Título y descripción del video -->
+                    <div class="p-4 text-center">
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">El Valor de la Empatía</h3>
+                        <p class="text-gray-600">Un cuento que enseña a ponerse en el lugar de los demás.</p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de video 2: Honestidad -->
+                <div class="video-card categoria-honestidad bg-green-50 rounded-lg shadow-md overflow-hidden p-4">
+                    <div class="aspect-w-16 aspect-h-9 w-full">
+                        <iframe 
+                            class="w-full h-auto rounded-lg"
+                            src="https://www.youtube.com/embed/g2qF7z-T4yI" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="text-xl font-bold text-green-800 mb-2">La Importancia de la Honestidad</h3>
+                        <p class="text-gray-600">Una historia para aprender sobre ser honesto y decir la verdad.</p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de video 3: Amistad -->
+                <div class="video-card categoria-amistad bg-yellow-50 rounded-lg shadow-md overflow-hidden p-4">
+                    <div class="aspect-w-16 aspect-h-9 w-full">
+                        <iframe 
+                            class="w-full h-auto rounded-lg"
+                            src="https://www.youtube.com/embed/n4f7-eYw9jM" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="text-xl font-bold text-yellow-800 mb-2">El Valor de la Amistad</h3>
+                        <p class="text-gray-600">Un cuento sobre la importancia de la amistad y el compañerismo.</p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de video 4: Generosidad -->
+                <div class="video-card categoria-generosidad bg-blue-50 rounded-lg shadow-md overflow-hidden p-4">
+                    <div class="aspect-w-16 aspect-h-9 w-full">
+                        <iframe 
+                            class="w-full h-auto rounded-lg"
+                            src="https://www.youtube.com/embed/L1m41Q9t3z4" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">La Generosidad del Sol</h3>
+                        <p class="text-gray-600">Una historia sobre dar sin esperar nada a cambio.</p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de video 5: Respeto -->
+                <div class="video-card categoria-respeto bg-green-50 rounded-lg shadow-md overflow-hidden p-4">
+                    <div class="aspect-w-16 aspect-h-9 w-full">
+                        <iframe 
+                            class="w-full h-auto rounded-lg"
+                            src="https://www.youtube.com/embed/g2qF7z-T4yI" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="text-xl font-bold text-green-800 mb-2">El Respeto a los Mayores</h3>
+                        <p class="text-gray-600">Un cuento para aprender a valorar y escuchar a los mayores.</p>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de video 6: Responsabilidad -->
+                <div class="video-card categoria-responsabilidad bg-yellow-50 rounded-lg shadow-md overflow-hidden p-4">
+                    <div class="aspect-w-16 aspect-h-9 w-full">
+                        <iframe 
+                            class="w-full h-auto rounded-lg"
+                            src="https://www.youtube.com/embed/n4f7-eYw9jM" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="text-xl font-bold text-yellow-800 mb-2">Mi Responsabilidad en Casa</h3>
+                        <p class="text-gray-600">Una historia que enseña a los niños a ser responsables.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Pie de página (Footer) -->
+        <footer class="text-center mt-8 text-gray-500">
+            <p>&copy; 2025 Virtue Cuentos. Todos los derechos reservados.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Función para filtrar los videos según la categoría
+        function filterVideos(category) {
+            const videoCards = document.querySelectorAll('.video-card');
+            
+            // Recorre todas las tarjetas de video
+            videoCards.forEach(card => {
+                // Si la categoría es 'all', muestra todas las tarjetas
+                if (category === 'all') {
+                    card.classList.remove('hidden-category');
+                } else {
+                    // Si la tarjeta contiene la clase de la categoría, la muestra
+                    if (card.classList.contains(`categoria-${category}`)) {
+                        card.classList.remove('hidden-category');
+                    } else {
+                        // De lo contrario, la oculta
+                        card.classList.add('hidden-category');
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
