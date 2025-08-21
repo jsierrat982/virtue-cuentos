@@ -186,6 +186,46 @@
                 </div>
             </div>
         </main>
+        
+        <!-- Sección para crear cuentos con Gemini -->
+        <section class="bg-white rounded-xl shadow-lg p-6 md:p-8 mt-8">
+            <h2 class="text-2xl md:text-3xl font-semibold text-blue-600 mb-6">Crea tu Propio Cuento ✨</h2>
+
+            <!-- Formulario de generación de cuentos -->
+            <div class="space-y-4">
+                <div>
+                    <label for="virtue-select" class="block text-gray-700 font-medium mb-1">Selecciona una virtud:</label>
+                    <select id="virtue-select" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-200">
+                        <option value="honestidad">Honestidad</option>
+                        <option value="generosidad">Generosidad</option>
+                        <option value="respeto">Respeto</option>
+                        <option value="empatia">Empatía</option>
+                        <option value="responsabilidad">Responsabilidad</option>
+                        <option value="amistad">Amistad</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="character-input" class="block text-gray-700 font-medium mb-1">Añade un personaje o detalle (opcional):</label>
+                    <input type="text" id="character-input" placeholder="Ej: 'un oso valiente' o 'en un bosque mágico'" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-200">
+                </div>
+                <button onclick="generateStory()" 
+                    class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center space-x-2">
+                    <span>Generar Cuento</span>
+                    <span role="img" aria-label="sparkles">✨</span>
+                </button>
+            </div>
+            
+            <!-- Contenedor para mostrar el cuento generado -->
+            <div id="story-output" class="mt-8 p-6 bg-gray-50 rounded-lg shadow-inner hidden">
+                <div id="loading-indicator" class="hidden text-center text-gray-500">
+                    <p>Generando tu cuento, por favor espera...</p>
+                </div>
+                <div id="story-content" class="whitespace-pre-wrap text-gray-700 leading-relaxed"></div>
+            </div>
+            
+            <!-- Contenedor para mostrar mensajes de error -->
+            <div id="error-message" class="hidden mt-4 text-red-600 text-center"></div>
+        </section>
 
         <!-- Sección de Acerca de Nosotros y Contáctanos -->
         <section class="bg-white rounded-xl shadow-lg p-6 md:p-8 mt-8">
@@ -256,25 +296,86 @@
     </div>
 
     <script>
-        // Función para filtrar los videos según la categoría
+        // Function to filter videos by category
         function filterVideos(category) {
             const videoCards = document.querySelectorAll('.video-card');
-            
-            // Recorre todas las tarjetas de video
             videoCards.forEach(card => {
-                // Si la categoría es 'all', muestra todas las tarjetas
                 if (category === 'all') {
                     card.classList.remove('hidden-category');
                 } else {
-                    // Si la tarjeta contiene la clase de la categoría, la muestra
                     if (card.classList.contains(`categoria-${category}`)) {
                         card.classList.remove('hidden-category');
                     } else {
-                        // De lo contrario, la oculta
                         card.classList.add('hidden-category');
                     }
                 }
             });
+        }
+        
+        // Asynchronous function to generate a story using the Gemini API
+        async function generateStory() {
+            const virtueSelect = document.getElementById('virtue-select');
+            const characterInput = document.getElementById('character-input');
+            const storyOutput = document.getElementById('story-output');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const storyContent = document.getElementById('story-content');
+            const errorMessage = document.getElementById('error-message');
+
+            // Get the user's selected virtue and character input
+            const selectedVirtue = virtueSelect.value;
+            const characterDetail = characterInput.value.trim();
+
+            // Hide previous content and show the loading indicator
+            storyOutput.classList.remove('hidden');
+            storyContent.innerText = '';
+            errorMessage.classList.add('hidden');
+            loadingIndicator.classList.remove('hidden');
+
+            // Create the prompt for the Gemini API
+            let prompt = `Escribe un cuento infantil corto (2-3 párrafos) que ejemplifique la virtud de la ${selectedVirtue}.`;
+            if (characterDetail) {
+                prompt += ` El cuento debe incluir el siguiente detalle: ${characterDetail}.`;
+            }
+
+            try {
+                // API call to the Gemini LLM
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API response error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                // Check for valid response structure
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const storyText = result.candidates[0].content.parts[0].text;
+                    storyContent.innerText = storyText;
+                } else {
+                    throw new Error('Invalid API response structure.');
+                }
+
+            } catch (error) {
+                console.error("Error generating story:", error);
+                errorMessage.innerText = 'No se pudo generar el cuento. Por favor, inténtalo de nuevo.';
+                errorMessage.classList.remove('hidden');
+                storyContent.innerText = '';
+            } finally {
+                // Hide the loading indicator
+                loadingIndicator.classList.add('hidden');
+            }
         }
     </script>
 
