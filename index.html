@@ -226,6 +226,26 @@
             <!-- Contenedor para mostrar mensajes de error -->
             <div id="error-message" class="hidden mt-4 text-red-600 text-center"></div>
         </section>
+        
+        <!-- Sección de subida de archivos -->
+        <section class="bg-white rounded-xl shadow-lg p-6 md:p-8 mt-8">
+            <h2 class="text-2xl md:text-3xl font-semibold text-blue-600 mb-6">Sube tu Propio Cuento 📄</h2>
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <label for="file-upload-input" class="cursor-pointer block">
+                    <!-- Icono SVG de subida de archivo para un mejor UX -->
+                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28m0 0l4 4m4-4l1.172-1.172a4 4 0 00-5.656 0L28 28m0 0l-4 4m4-4l4 4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="mt-2 block text-sm font-medium text-gray-900">
+                        Arrastra y suelta un archivo o <span class="text-blue-600 hover:text-blue-800 font-semibold">haz clic para subir</span>
+                    </span>
+                    <!-- Input de tipo archivo que está oculto visualmente -->
+                    <input id="file-upload-input" name="file-upload" type="file" class="sr-only" onchange="displayFileName(this.files)" />
+                </label>
+            </div>
+            <!-- Contenedor para mostrar mensajes de estado de la subida -->
+            <div id="upload-message" class="mt-4 p-4 text-center rounded-lg text-gray-700 hidden"></div>
+        </section>
 
         <!-- Sección de Acerca de Nosotros y Contáctanos -->
         <section class="bg-white rounded-xl shadow-lg p-6 md:p-8 mt-8">
@@ -296,7 +316,7 @@
     </div>
 
     <script>
-        // Function to filter videos by category
+        // Función para filtrar videos por categoría
         function filterVideos(category) {
             const videoCards = document.querySelectorAll('.video-card');
             videoCards.forEach(card => {
@@ -312,7 +332,7 @@
             });
         }
         
-        // Asynchronous function to generate a story using the Gemini API
+        // Función asíncrona para generar un cuento usando la API de Gemini
         async function generateStory() {
             const virtueSelect = document.getElementById('virtue-select');
             const characterInput = document.getElementById('character-input');
@@ -321,24 +341,24 @@
             const storyContent = document.getElementById('story-content');
             const errorMessage = document.getElementById('error-message');
 
-            // Get the user's selected virtue and character input
+            // Obtiene la virtud seleccionada y el detalle del personaje
             const selectedVirtue = virtueSelect.value;
             const characterDetail = characterInput.value.trim();
 
-            // Hide previous content and show the loading indicator
+            // Oculta el contenido anterior y muestra el indicador de carga
             storyOutput.classList.remove('hidden');
             storyContent.innerText = '';
             errorMessage.classList.add('hidden');
             loadingIndicator.classList.remove('hidden');
 
-            // Create the prompt for the Gemini API
+            // Crea el prompt para la API de Gemini
             let prompt = `Escribe un cuento infantil corto (2-3 párrafos) que ejemplifique la virtud de la ${selectedVirtue}.`;
             if (characterDetail) {
                 prompt += ` El cuento debe incluir el siguiente detalle: ${characterDetail}.`;
             }
 
             try {
-                // API call to the Gemini LLM
+                // Llamada a la API de Gemini
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                 const payload = { contents: chatHistory };
@@ -352,29 +372,46 @@
                 });
                 
                 if (!response.ok) {
-                    throw new Error(`API response error: ${response.statusText}`);
+                    throw new Error(`Error de respuesta de la API: ${response.statusText}`);
                 }
 
                 const result = await response.json();
 
-                // Check for valid response structure
+                // Verifica la estructura de la respuesta
                 if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
                     const storyText = result.candidates[0].content.parts[0].text;
                     storyContent.innerText = storyText;
                 } else {
-                    throw new Error('Invalid API response structure.');
+                    throw new Error('Estructura de respuesta de la API no válida.');
                 }
 
             } catch (error) {
-                console.error("Error generating story:", error);
+                console.error("Error al generar el cuento:", error);
                 errorMessage.innerText = 'No se pudo generar el cuento. Por favor, inténtalo de nuevo.';
                 errorMessage.classList.remove('hidden');
                 storyContent.innerText = '';
             } finally {
-                // Hide the loading indicator
+                // Oculta el indicador de carga
                 loadingIndicator.classList.add('hidden');
+            }
+        }
+        
+        // Función para mostrar el nombre del archivo seleccionado
+        function displayFileName(files) {
+            const uploadMessage = document.getElementById('upload-message');
+            if (files.length > 0) {
+                const fileName = files[0].name;
+                uploadMessage.innerText = `Archivo seleccionado: ${fileName}. La subida de archivo real requiere un servidor.`;
+                uploadMessage.classList.remove('hidden');
+                uploadMessage.classList.remove('text-red-700', 'bg-red-50');
+                uploadMessage.classList.add('text-green-700', 'bg-green-50');
+            } else {
+                uploadMessage.innerText = 'No se seleccionó ningún archivo.';
+                uploadMessage.classList.remove('hidden');
+                uploadMessage.classList.remove('text-green-700', 'bg-green-50');
+                uploadMessage.classList.add('text-red-700', 'bg-red-50');
             }
         }
     </script>
