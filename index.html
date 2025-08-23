@@ -7,8 +7,7 @@
     <title>VIRTUE CUENTOS</title>
     <!-- Incluye el CDN de Tailwind CSS para un diseño responsivo y moderno -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Incluye los iconos de Heroicons para los botones -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/heroicons/2.0.18/heroicons.js"></script>
+    <!-- Define una fuente global y los estilos personalizados para los botones -->
     <style>
         /* Define una fuente global para toda la página */
         body {
@@ -17,6 +16,58 @@
         /* Oculta los elementos que no corresponden a la categoría seleccionada */
         .hidden-category {
             display: none;
+        }
+
+        /* Estilos del nuevo botón */
+        .button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+            outline: none;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        .button-outer {
+            position: relative;
+            padding: 4px;
+            border-radius: 9999px;
+            background: linear-gradient(145deg, #e6e6e6, #ffffff);
+            box-shadow: 6px 6px 12px #d9d9d9, -6px -6px 12px #ffffff;
+        }
+
+        .button:hover .button-outer {
+            box-shadow: 3px 3px 6px #d9d9d9, -3px -3px 6px #ffffff;
+        }
+
+        .button-inner {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            background-color: #f0f0f0;
+            box-shadow: inset 2px 2px 4px #d9d9d9, inset -2px -2px 4px #ffffff;
+            color: #555;
+        }
+        
+        /* Estilo para el botón "TODOS" */
+        .button.all-active .button-outer,
+        .button:first-child .button-outer {
+            background: linear-gradient(145deg, #5a9fff, #4285f4);
+            box-shadow: 6px 6px 12px #4285f470, -6px -6px 12px #ffffff;
+        }
+        .button.all-active .button-inner,
+        .button:first-child .button-inner {
+            background-color: #4285f4;
+            box-shadow: inset 2px 2px 4px #3371e7, inset -2px -2px 4px #519aff;
+            color: #fff;
         }
     </style>
 </head>
@@ -36,44 +87,72 @@
             <!-- Título de la sección de videos -->
             <h2 class="text-2xl md:text-3xl font-semibold text-blue-600 mb-6">Nuestros Video Cuentos</h2>
 
-            <!-- Barra de navegación para las categorías -->
-            <nav class="flex flex-wrap justify-center gap-2 mb-6">
+            <!-- Barra de navegación para las categorías, con los nuevos botones -->
+            <nav class="flex flex-wrap justify-center gap-4 mb-6">
                 <!-- Botón para mostrar todos los videos -->
-                <button 
+                <button
                     onclick="filterVideos('all')"
-                    class="px-4 py-2 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-600 transition-colors duration-200">
-                    Todos
+                    class="button all-active">
+                    <div class="button-outer">
+                        <div class="button-inner">
+                            <span>TODOS</span>
+                        </div>
+                    </div>
                 </button>
                 <!-- Botones para filtrar por categoría -->
-                <button 
+                <button
                     onclick="filterVideos('honestidad')"
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
-                    Honestidad
+                    class="button">
+                    <div class="button-outer">
+                        <div class="button-inner">
+                            <span>HONESTIDAD</span>
+                        </div>
+                    </div>
                 </button>
-                <button 
+                <button
                     onclick="filterVideos('generosidad')"
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
-                    Generosidad
+                    class="button">
+                    <div class="button-outer">
+                        <div class="button-inner">
+                            <span>GENEROSIDAD</span>
+                        </div>
+                    </div>
                 </button>
-                <button 
+                <button
                     onclick="filterVideos('respeto')"
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
-                    Respeto
+                    class="button">
+                    <div class="button-outer">
+                        <div class="button-inner">
+                            <span>RESPETO</span>
+                        </div>
+                    </div>
                 </button>
-                <button 
+                <button
                     onclick="filterVideos('empatia')"
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
-                    Empatía
+                    class="button">
+                    <div class="button-outer">
+                        <div class="button-inner">
+                            <span>EMPATÍA</span>
+                        </div>
+                    </div>
                 </button>
-                <button 
+                <button
                     onclick="filterVideos('responsabilidad')"
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
-                    Responsabilidad
+                    class="button">
+                    <div class="button-outer">
+                        <div class="button-inner">
+                            <span>RESPONSABILIDAD</span>
+                        </div>
+                    </div>
                 </button>
-                <button 
+                <button
                     onclick="filterVideos('amistad')"
-                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-200">
-                    Amistad
+                    class="button">
+                    <div class="button-outer">
+                        <div class="button-inner">
+                            <span>AMISTAD</span>
+                        </div>
+                    </div>
                 </button>
             </nav>
 
@@ -84,12 +163,12 @@
                 <div class="video-card categoria-empatia bg-blue-50 rounded-lg shadow-md overflow-hidden p-4">
                     <!-- Contenedor para el video con relación de aspecto 16:9 -->
                     <div class="aspect-w-16 aspect-h-9 w-full">
-                        <!-- Iframe de YouTube para el video (placeholder) -->
-                        <iframe 
+                        <!-- Iframe de YouTube para el video -->
+                        <iframe
                             class="w-full h-auto rounded-lg"
-                            src="https://www.youtube.com/embed/L1m41Q9t3z4" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            src="https://www.youtube.com/embed/L1m41Q9t3z4"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen>
                         </iframe>
                     </div>
@@ -103,11 +182,11 @@
                 <!-- Tarjeta de video 2: Honestidad -->
                 <div class="video-card categoria-honestidad bg-green-50 rounded-lg shadow-md overflow-hidden p-4">
                     <div class="aspect-w-16 aspect-h-9 w-full">
-                        <iframe 
+                        <iframe
                             class="w-full h-auto rounded-lg"
-                            src="https://www.youtube.com/embed/g2qF7z-T4yI" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            src="https://www.youtube.com/embed/g2qF7z-T4yI"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen>
                         </iframe>
                     </div>
@@ -120,11 +199,11 @@
                 <!-- Tarjeta de video 3: Amistad -->
                 <div class="video-card categoria-amistad bg-yellow-50 rounded-lg shadow-md overflow-hidden p-4">
                     <div class="aspect-w-16 aspect-h-9 w-full">
-                        <iframe 
+                        <iframe
                             class="w-full h-auto rounded-lg"
-                            src="https://www.youtube.com/embed/n4f7-eYw9jM" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            src="https://www.youtube.com/embed/n4f7-eYw9jM"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen>
                         </iframe>
                     </div>
@@ -137,11 +216,11 @@
                 <!-- Tarjeta de video 4: Generosidad -->
                 <div class="video-card categoria-generosidad bg-blue-50 rounded-lg shadow-md overflow-hidden p-4">
                     <div class="aspect-w-16 aspect-h-9 w-full">
-                        <iframe 
+                        <iframe
                             class="w-full h-auto rounded-lg"
-                            src="https://www.youtube.com/embed/L1m41Q9t3z4" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            src="https://www.youtube.com/embed/409k_T89J1s"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen>
                         </iframe>
                     </div>
@@ -154,11 +233,11 @@
                 <!-- Tarjeta de video 5: Respeto -->
                 <div class="video-card categoria-respeto bg-green-50 rounded-lg shadow-md overflow-hidden p-4">
                     <div class="aspect-w-16 aspect-h-9 w-full">
-                        <iframe 
+                        <iframe
                             class="w-full h-auto rounded-lg"
-                            src="https://www.youtube.com/embed/g2qF7z-T4yI" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            src="https://www.youtube.com/embed/8-qgV_t7jD4"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen>
                         </iframe>
                     </div>
@@ -171,11 +250,11 @@
                 <!-- Tarjeta de video 6: Responsabilidad -->
                 <div class="video-card categoria-responsabilidad bg-yellow-50 rounded-lg shadow-md overflow-hidden p-4">
                     <div class="aspect-w-16 aspect-h-9 w-full">
-                        <iframe 
+                        <iframe
                             class="w-full h-auto rounded-lg"
-                            src="https://www.youtube.com/embed/n4f7-eYw9jM" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            src="https://www.youtube.com/embed/1d1n2bA-4eI"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen>
                         </iframe>
                     </div>
@@ -186,7 +265,7 @@
                 </div>
             </div>
         </main>
-        
+
         <!-- Sección para crear cuentos con Gemini -->
         <section class="bg-white rounded-xl shadow-lg p-6 md:p-8 mt-8">
             <h2 class="text-2xl md:text-3xl font-semibold text-blue-600 mb-6">Crea tu Propio Cuento ✨</h2>
@@ -208,13 +287,13 @@
                     <label for="character-input" class="block text-gray-700 font-medium mb-1">Añade un personaje o detalle (opcional):</label>
                     <input type="text" id="character-input" placeholder="Ej: 'un oso valiente' o 'en un bosque mágico'" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-200">
                 </div>
-                <button onclick="generateStory()" 
+                <button onclick="generateStory()"
                     class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center space-x-2">
                     <span>Generar Cuento</span>
                     <span role="img" aria-label="sparkles">✨</span>
                 </button>
             </div>
-            
+
             <!-- Contenedor para mostrar el cuento generado -->
             <div id="story-output" class="mt-8 p-6 bg-gray-50 rounded-lg shadow-inner hidden">
                 <div id="loading-indicator" class="hidden text-center text-gray-500">
@@ -222,11 +301,11 @@
                 </div>
                 <div id="story-content" class="whitespace-pre-wrap text-gray-700 leading-relaxed"></div>
             </div>
-            
+
             <!-- Contenedor para mostrar mensajes de error -->
             <div id="error-message" class="hidden mt-4 text-red-600 text-center"></div>
         </section>
-        
+
         <!-- Sección de subida de archivos -->
         <section class="bg-white rounded-xl shadow-lg p-6 md:p-8 mt-8">
             <h2 class="text-2xl md:text-3xl font-semibold text-blue-600 mb-6">Sube tu Propio Cuento 📄</h2>
@@ -250,7 +329,7 @@
         <!-- Sección de Acerca de Nosotros y Contáctanos -->
         <section class="bg-white rounded-xl shadow-lg p-6 md:p-8 mt-8">
             <h2 class="text-2xl md:text-3xl font-semibold text-blue-600 mb-6">Acerca de Nosotros y Contáctanos</h2>
-            
+
             <!-- Sección de "Acerca de Nosotros" -->
             <div class="mb-8">
                 <h3 class="text-xl font-bold text-blue-800 mb-2">Nuestra Misión</h3>
@@ -258,18 +337,18 @@
                     En **Virtue Cuentos**, nuestra misión es simple: utilizar el poder de la narración para inspirar a los niños a descubrir y abrazar las virtudes y los valores humanos. Creemos que cada cuento es una oportunidad para aprender, crecer y convertirse en una mejor persona. Nuestros videos están diseñados para ser divertidos y educativos, ayudando a los niños a entender conceptos importantes como la empatía, la honestidad y la amistad de una manera accesible.
                 </p>
             </div>
-            
+
             <!-- Formulario de "Contáctanos" -->
             <form action="#" method="POST" class="space-y-4">
                 <h3 class="text-xl font-bold text-blue-800 mb-4">Envíanos un mensaje</h3>
                 <div>
                     <label for="name" class="block text-gray-700 font-medium mb-1">Nombre</label>
-                    <input type="text" id="name" name="name" 
+                    <input type="text" id="name" name="name"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-200">
                 </div>
                 <div>
                     <label for="email" class="block text-gray-700 font-medium mb-1">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" 
+                    <input type="email" id="email" name="email"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-200">
                 </div>
                 <div>
@@ -277,7 +356,7 @@
                     <textarea id="message" name="message" rows="4"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow duration-200"></textarea>
                 </div>
-                <button type="submit" 
+                <button type="submit"
                     class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
                     Enviar Mensaje
                 </button>
@@ -319,19 +398,36 @@
         // Función para filtrar videos por categoría
         function filterVideos(category) {
             const videoCards = document.querySelectorAll('.video-card');
-            videoCards.forEach(card => {
-                if (category === 'all') {
-                    card.classList.remove('hidden-category');
-                } else {
-                    if (card.classList.contains(`categoria-${category}`)) {
-                        card.classList.remove('hidden-category');
-                    } else {
-                        card.classList.add('hidden-category');
-                    }
-                }
+            const buttons = document.querySelectorAll('.button');
+
+            // Quita la clase de activo de todos los botones
+            buttons.forEach(button => {
+                button.classList.remove('all-active');
             });
+            // Añade la clase de activo al botón seleccionado
+            const selectedButton = document.querySelector(`.button[onclick="filterVideos('${category}')"]`);
+            if (selectedButton) {
+                selectedButton.classList.add('all-active');
+            }
+
+            // Oculta todos los videos
+            videoCards.forEach(card => {
+                card.classList.add('hidden-category');
+            });
+
+            // Muestra solo los videos de la categoría seleccionada
+            if (category === 'all') {
+                videoCards.forEach(card => {
+                    card.classList.remove('hidden-category');
+                });
+            } else {
+                const filteredCards = document.querySelectorAll(`.categoria-${category}`);
+                filteredCards.forEach(card => {
+                    card.classList.remove('hidden-category');
+                });
+            }
         }
-        
+
         // Función asíncrona para generar un cuento usando la API de Gemini
         async function generateStory() {
             const virtueSelect = document.getElementById('virtue-select');
@@ -401,18 +497,17 @@
         // Función para mostrar el nombre del archivo seleccionado
         function displayFileName(files) {
             const uploadMessage = document.getElementById('upload-message');
+            uploadMessage.classList.remove('hidden', 'text-green-700', 'bg-green-50', 'text-red-700', 'bg-red-50');
+            
             if (files.length > 0) {
                 const fileName = files[0].name;
                 uploadMessage.innerText = `Archivo seleccionado: ${fileName}. La subida de archivo real requiere un servidor.`;
-                uploadMessage.classList.remove('hidden');
-                uploadMessage.classList.remove('text-red-700', 'bg-red-50');
                 uploadMessage.classList.add('text-green-700', 'bg-green-50');
             } else {
                 uploadMessage.innerText = 'No se seleccionó ningún archivo.';
-                uploadMessage.classList.remove('hidden');
-                uploadMessage.classList.remove('text-green-700', 'bg-green-50');
                 uploadMessage.classList.add('text-red-700', 'bg-red-50');
             }
+            uploadMessage.classList.remove('hidden');
         }
     </script>
 
